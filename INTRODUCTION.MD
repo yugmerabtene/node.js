@@ -18,7 +18,28 @@ Node.js est un environnement d'exécution JavaScript côté serveur, basé sur l
 node -v   # Affiche la version de Node.js
 npm -v    # Affiche la version de npm (Node Package Manager)
 ```
+# Introduction à Node.js
 
+Node.js est un environnement d'exécution JavaScript côté serveur, basé sur le moteur V8 de Google Chrome. Il permet d'exécuter du JavaScript en dehors du navigateur, offrant ainsi la possibilité de créer des applications côté serveur rapides et scalables.
+
+## Caractéristiques principales de Node.js
+
+- **Non-bloquant et à événements** : Node.js utilise un modèle à événements et non-bloquant pour traiter les opérations d'E/S.
+- **Rapide** : Node.js est rapide grâce à son moteur V8 et son architecture.
+- **Un seul langage** : Vous pouvez utiliser JavaScript pour le front-end et le back-end.
+
+## Installation de Node.js
+
+1. **Téléchargez Node.js** : Rendez-vous sur le site officiel [https://nodejs.org](https://nodejs.org) et téléchargez la version LTS recommandée.
+2. **Installez Node.js** : Suivez les instructions pour votre système d'exploitation.
+3. **Vérifiez l'installation** :
+
+```bash
+node -v   # Affiche la version de Node.js
+npm -v    # Affiche la version de npm (Node Package Manager)
+```
+
+---
 ---
 
 # Premier programme en Node.js
