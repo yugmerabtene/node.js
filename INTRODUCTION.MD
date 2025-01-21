@@ -226,3 +226,86 @@ app.listen(PORT, () => {
      - `DELETE /tasks/:id`
 
 ---
+Tester votre API avec `curl`. Assurez-vous que votre serveur Node.js est en cours d'exécution sur **http://localhost:3000**.
+
+---
+
+### **1. Obtenir toutes les tâches (`GET /tasks`)**
+Commande :
+```bash
+curl -X GET http://localhost:3000/tasks
+```
+
+Explication :
+- `-X GET` : Indique que c'est une requête HTTP GET.
+- Renvoie la liste des tâches au format JSON.
+
+---
+
+### **2. Ajouter une nouvelle tâche (`POST /tasks`)**
+Commande :
+```bash
+curl -X POST http://localhost:3000/tasks -H "Content-Type: application/json" -d '{"title": "Nouvelle tâche"}'
+```
+
+Explication :
+- `-X POST` : Indique une requête HTTP POST.
+- `-H "Content-Type: application/json"` : Ajoute un en-tête HTTP pour spécifier que le corps de la requête est en JSON.
+- `-d '{"title": "Nouvelle tâche"}'` : Données envoyées dans le corps de la requête.
+
+---
+
+### **3. Mettre à jour une tâche (`PUT /tasks/:id`)**
+Commande :
+```bash
+curl -X PUT http://localhost:3000/tasks/1 -H "Content-Type: application/json" -d '{"title": "Apprendre Node.js en profondeur", "completed": true}'
+```
+
+Explication :
+- `http://localhost:3000/tasks/1` : Met à jour la tâche avec `id=1`.
+- `-d '{"title": "Apprendre Node.js en profondeur", "completed": true}'` : Envoie les nouvelles valeurs pour `title` et `completed`.
+
+---
+
+### **4. Supprimer une tâche (`DELETE /tasks/:id`)**
+Commande :
+```bash
+curl -X DELETE http://localhost:3000/tasks/1
+```
+
+Explication :
+- `-X DELETE` : Indique une requête HTTP DELETE.
+- `http://localhost:3000/tasks/1` : Supprime la tâche avec `id=1`.
+
+---
+
+### **Exemples combinés**
+- Pour vérifier si l'ajout ou la mise à jour a fonctionné, relancez la commande `GET /tasks` pour voir les modifications dans la liste des tâches.
+
+### **Test rapide avec des étapes :**
+1. **Lister les tâches** :
+   ```bash
+   curl -X GET http://localhost:3000/tasks
+   ```
+
+2. **Ajouter une tâche** :
+   ```bash
+   curl -X POST http://localhost:3000/tasks -H "Content-Type: application/json" -d '{"title": "Nouvelle tâche"}'
+   ```
+
+3. **Vérifier la nouvelle tâche** :
+   ```bash
+   curl -X GET http://localhost:3000/tasks
+   ```
+
+4. **Mettre à jour une tâche** :
+   ```bash
+   curl -X PUT http://localhost:3000/tasks/1 -H "Content-Type: application/json" -d '{"completed": true}'
+   ```
+
+5. **Supprimer une tâche** :
+   ```bash
+   curl -X DELETE http://localhost:3000/tasks/1
+   ```
+
+Ces commandes vous permettent de tester toutes les fonctionnalités de votre API directement depuis le terminal. 🚀
