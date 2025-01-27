@@ -1,7 +1,3 @@
-Voici la version finale avec toutes les parties configurées (installation de MongoDB, développement de l'application complète, tests, et déploiement). Je vais structurer chaque étape en détail. Vous pouvez copier-coller les sections nécessaires pour votre projet.
-
----
-
 # Développement de l'application Node.js CRUD avec MongoDB
 
 Ce guide couvre :
