@@ -1,4 +1,4 @@
-### Cours Complet : Scaling et Optimisation des Applications Node.js
+### Chapitre-05 : Scaling et Optimisation des Applications Node.js
 
 Ce cours combine les concepts de scaling et d'optimisation des applications Node.js en utilisant des techniques comme le clustering, la mise en cache avec Redis, et la scalabilité via les microservices et le load balancing. Nous allons également explorer des outils comme PM2 pour la gestion des processus.
 
