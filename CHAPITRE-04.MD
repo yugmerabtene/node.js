@@ -4,7 +4,10 @@ Dans ce chapitre, nous allons aborder deux aspects importants du développement 
 
 ---
 ## Dependances 
+Voici un exemple de fichier `package.json` pour ce projet. Il inclut les dépendances nécessaires pour développer, tester, et déployer l'application Node.js. 
 
+### `package.json`
+```json
 {
   "name": "nodejs-crud-app",
   "version": "1.0.0",
@@ -29,6 +32,25 @@ Dans ce chapitre, nous allons aborder deux aspects importants du développement 
     "nodemon": "^2.0.22"
   }
 }
+```
+
+### Explications des sections importantes :
+1. **Dépendances principales :**
+   - `express` : Framework pour créer des routes et gérer les requêtes.
+   - `mongoose` : ORM pour interagir avec MongoDB.
+   - `dotenv` : Charger les variables d'environnement.
+
+2. **Dépendances de développement :**
+   - `jest` : Framework pour les tests.
+   - `supertest` : Librairie pour tester les requêtes HTTP.
+   - `nodemon` : Rechargement automatique du serveur en développement.
+
+3. **Scripts :**
+   - `start` : Lancer l'application en production.
+   - `dev` : Lancer l'application en mode développement (avec `nodemon`).
+   - `test` : Exécuter les tests avec Jest.
+
+---
 
 ---
 
