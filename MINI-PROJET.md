@@ -1,5 +1,3 @@
-Voici l'énoncé pour le projet de clone de Twitter avec des user stories et des critères d'acceptation :
-
 ### Projet : Clone de Twitter
 
 **Descriptif Technique :**
