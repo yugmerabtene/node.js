@@ -199,6 +199,188 @@ pm2 delete cluster_app
    - Configurez Nginx pour répartir le trafic entre ces deux instances.
 
 ---
+## Resolution du TP
+---
+
+### **1. Clustering avec Node.js**
+
+#### **Objectif**
+Créer une application Node.js simple et implémenter le clustering pour répartir les requêtes HTTP entre plusieurs workers.
+
+#### **Code Complet**
+
+```javascript
+// cluster_app.js
+const cluster = require('cluster');
+const http = require('http');
+const os = require('os');
+const numCPUs = os.cpus().length;
+
+if (cluster.isMaster) {
+  console.log(`Le processus maître est ${process.pid}`);
+
+  // Création d'un worker pour chaque cœur de CPU
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
+
+  // Gestion de la mort d'un worker
+  cluster.on('exit', (worker, code, signal) => {
+    console.log(`Le worker ${worker.process.pid} est mort. Redémarrage...`);
+    cluster.fork(); // Redémarre un nouveau worker
+  });
+} else {
+  // Chaque worker crée un serveur HTTP
+  http.createServer((req, res) => {
+    res.writeHead(200);
+    res.end(`Hello, World! Depuis le worker ${process.pid}`);
+  }).listen(8000, () => {
+    console.log(`Worker ${process.pid} en écoute sur le port 8000`);
+  });
+}
+```
+
+#### **Explication**
+- **`cluster.isMaster`** : Vérifie si le processus actuel est le processus principal (master). Si c'est le cas, il crée des workers.
+- **`cluster.fork()`** : Crée un nouveau worker pour chaque cœur de CPU.
+- **`cluster.on('exit')`** : Écoute les événements de sortie des workers et redémarre un nouveau worker si l'un d'eux meurt.
+- **Serveur HTTP** : Chaque worker exécute un serveur HTTP indépendant, permettant de répartir la charge entre les cœurs CPU.
+
+#### **Test des Performances**
+- **Sans clustering** : Exécutez `node cluster_app.js` et utilisez un outil comme `loadtest` pour mesurer les performances.
+- **Avec clustering** : Exécutez `node cluster_app.js` et observez comment les requêtes sont réparties entre les workers.
+
+---
+
+### **2. Mise en Cache avec Redis**
+
+#### **Objectif**
+Ajouter un mécanisme de cache avec Redis pour mettre en cache les réponses de l'API.
+
+#### **Code Complet**
+
+```javascript
+// redis_cache_app.js
+const redis = require('redis');
+const client = redis.createClient();
+const express = require('express');
+const app = express();
+
+// Simuler une requête à la base de données
+function fetchDataFromDB(callback) {
+  setTimeout(() => {
+    callback("Données récupérées de la base de données");
+  }, 2000);
+}
+
+app.get('/data', (req, res) => {
+  const cacheKey = 'my_data_cache';
+  
+  // Vérifier si les données sont déjà en cache
+  client.get(cacheKey, (err, data) => {
+    if (data) {
+      return res.send(data); // Renvoie les données depuis le cache
+    }
+    
+    // Sinon, récupère les données depuis la base de données et les met en cache
+    fetchDataFromDB((dataFromDB) => {
+      client.setex(cacheKey, 3600, dataFromDB); // Mise en cache pour 1 heure
+      res.send(dataFromDB);
+    });
+  });
+});
+
+app.listen(3000, () => {
+  console.log('Serveur en écoute sur le port 3000');
+});
+```
+
+#### **Explication**
+- **`client.get(cacheKey)`** : Vérifie si les données sont déjà en cache.
+- **`client.setex(cacheKey, 3600, dataFromDB)`** : Stocke les données en cache pendant 1 heure (3600 secondes).
+- **`fetchDataFromDB`** : Simule une requête à la base de données avec un délai de 2 secondes.
+
+#### **Test des Performances**
+- **Sans cache** : Exécutez `node redis_cache_app.js` et mesurez les temps de réponse.
+- **Avec cache** : Exécutez `node redis_cache_app.js` et observez comment les temps de réponse s'améliorent après la première requête.
+
+---
+
+### **3. Scalabilité via Microservices**
+
+#### **Objectif**
+Diviser l'application en microservices (par exemple, un service pour les utilisateurs et un autre pour les produits).
+
+#### **Code Complet**
+
+```javascript
+// user_service.js
+const express = require('express');
+const app = express();
+
+app.get('/users', (req, res) => {
+  res.send('Liste des utilisateurs');
+});
+
+app.listen(3001, () => {
+  console.log('Service utilisateur en écoute sur le port 3001');
+});
+
+// product_service.js
+const express = require('express');
+const app = express();
+
+app.get('/products', (req, res) => {
+  res.send('Liste des produits');
+});
+
+app.listen(3002, () => {
+  console.log('Service produit en écoute sur le port 3002');
+});
+```
+
+#### **Explication**
+- **`user_service.js`** : Service pour la gestion des utilisateurs, écoutant sur le port 3001.
+- **`product_service.js`** : Service pour la gestion des produits, écoutant sur le port 3002.
+
+#### **Déploiement**
+- Exécutez `node user_service.js` et `node product_service.js` pour démarrer les deux services.
+
+---
+
+### **4. Répartition de Charge avec Nginx**
+
+#### **Objectif**
+Déployer deux instances de votre application Node.js sur des ports différents et configurer Nginx pour répartir le trafic entre ces deux instances.
+
+#### **Configuration Nginx**
+
+```nginx
+http {
+    upstream node_app {
+        server 127.0.0.1:3000;
+        server 127.0.0.1:3001;
+    }
+
+    server {
+        listen 80;
+        location / {
+            proxy_pass http://node_app;
+        }
+    }
+}
+```
+
+#### **Explication**
+- **`upstream`** : Définit un groupe de serveurs (ici deux instances de Node.js sur les ports 3000 et 3001).
+- **`proxy_pass`** : Redirige les requêtes HTTP vers le groupe de serveurs spécifié.
+
+#### **Déploiement**
+- Exécutez deux instances de votre application Node.js sur les ports 3000 et 3001.
+- Configurez Nginx avec le fichier de configuration ci-dessus.
+- Testez la répartition de charge en envoyant des requêtes à `http://localhost`.
+
+---
 
 ### **Ce qu'il faut retenir**
 
