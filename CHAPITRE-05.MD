@@ -4,6 +4,8 @@
 
 Node.js est basé sur un modèle à un seul thread, ce qui limite son utilisation des ressources multi-cœurs. Cependant, avec l'utilisation des **clusters**, vous pouvez créer plusieurs processus enfants, chaque processus étant exécuté sur un cœur du processeur. Cela permet de tirer parti des capacités de traitement parallèles du système.
 
+
+
 ##### **Exemple complet de code (Cluster avec Node.js)**
 
 ```javascript
