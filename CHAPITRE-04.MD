@@ -3,6 +3,34 @@
 Dans ce chapitre, nous allons aborder deux aspects importants du développement d'applications Node.js : les tests automatisés et le déploiement. Nous utiliserons **Jest** et **Supertest** pour les tests, puis nous déploierons notre application sur un service cloud.
 
 ---
+## Dependances 
+
+{
+  "name": "nodejs-crud-app",
+  "version": "1.0.0",
+  "description": "Application Node.js CRUD avec tests automatisés et déploiement.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "jest"
+  },
+  "keywords": ["nodejs", "crud", "jest", "supertest", "heroku", "mongodb"],
+  "author": "VotreNom",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "supertest": "^6.3.0",
+    "nodemon": "^2.0.22"
+  }
+}
+
+---
 
 ## 1. Tester une application Node.js
 
