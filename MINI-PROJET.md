@@ -1,4 +1,4 @@
-### **Projet : Clone de Twitter (Version Microservices et Multithreading)**
+### **Projet : Clone de Twitter basique (Version Microservices / Multithreading / Cache Redis)**
 
 ---
 
